@@ -2,9 +2,9 @@ import gnomeImg from '../assets/gnome.png';
 
 export default class GoblinSpawner {
   constructor(cells, scoreBoard, game) {
-    this.cells = cells;                    
+    this.cells = cells;
     this.scoreBoard = scoreBoard;
-    this.game = game;            
+    this.game = game;
     this.currentTimeout = null;
 
     this.goblinImg = document.createElement('img');
@@ -17,17 +17,16 @@ export default class GoblinSpawner {
   showGoblin() {
     this.hideGoblin();
 
-    const emptyCells = [...this.cells].filter(
+    const emptyCells = this.cells.filter(
       cell => !cell.classList.contains('has-goblin')
     );
 
     if (emptyCells.length === 0) return;
 
-    const randomCell =
-      emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
     randomCell.classList.add('has-goblin');
-    randomCell.appendChild(this.goblinImg);
+    randomCell.append(this.goblinImg);
 
     this.currentTimeout = setTimeout(() => {
       if (randomCell.classList.contains('has-goblin')) {
@@ -44,6 +43,7 @@ export default class GoblinSpawner {
     this.scoreBoard.hit();
     this.hideGoblin();
     clearTimeout(this.currentTimeout);
+    this.currentTimeout = null;
 
     if (this.game.isActive) {
       setTimeout(() => this.showGoblin(), 300);
@@ -60,7 +60,10 @@ export default class GoblinSpawner {
   }
 
   reset() {
-    clearTimeout(this.currentTimeout);
+    if (this.currentTimeout) {
+      clearTimeout(this.currentTimeout);
+      this.currentTimeout = null;
+    }
     this.hideGoblin();
   }
 }

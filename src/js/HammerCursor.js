@@ -5,8 +5,8 @@ export default class HammerCursor {
     this.hammer = document.createElement('div');
     this.hammer.classList.add('hammer-cursor');
     this.hammer.style.backgroundImage = `url(${hammerImg})`;
-    document.body.appendChild(this.hammer);
 
+    document.body.append(this.hammer);
     document.body.style.cursor = 'none';
 
     this.bindEvents();
@@ -25,7 +25,7 @@ export default class HammerCursor {
   }
 
   destroy() {
-    if (this.hammer && this.hammer.parentElement) {
+    if (this.hammer?.parentElement) {
       this.hammer.parentElement.removeChild(this.hammer);
     }
     document.body.style.cursor = 'default';

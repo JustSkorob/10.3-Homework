@@ -18,8 +18,7 @@ export default class ScoreBoard {
     this.missesEl.classList.add('misses');
     this.missesEl.innerHTML = `Промахи: <span>0</span>/5`;
 
-    container.appendChild(this.hitsEl);
-    container.appendChild(this.missesEl);
+    container.append(this.hitsEl, this.missesEl);
     document.body.insertBefore(container, document.getElementById('game-field'));
   }
 
@@ -35,6 +34,7 @@ export default class ScoreBoard {
     if (this.misses >= 5) {
       setTimeout(() => {
         alert(`Игра окончена! Вы поймали ${this.hits} гоблинов!`);
+        this.reset();
       }, 100);
     }
   }

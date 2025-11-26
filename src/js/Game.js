@@ -14,23 +14,15 @@ export default class Game {
   initField() {
     const field = document.getElementById('game-field');
     field.innerHTML = '';
-
     this.cells = [];
+
     for (let i = 0; i < 16; i++) {
       const cell = document.createElement('div');
       cell.classList.add('cell');
-    //   cell.addEventListener('click', () => {
-    //     if (this.isActive && !cell.classList.contains('has-goblin')) {
-    //       this.scoreBoard.miss();
-    //       this.goblinSpawner.hideGoblin();
-    //       if (this.isActive) {
-    //         setTimeout(() => this.goblinSpawner.showGoblin(), 400);
-    //       }
-    //     }
-    //   });
-      field.appendChild(cell);
       this.cells.push(cell);
     }
+
+    field.append(...this.cells);
   }
 
   start() {
@@ -41,13 +33,17 @@ export default class Game {
 
     this.isActive = true;
 
-    setTimeout(() => {
+    this.startTimeout = setTimeout(() => {
       this.goblinSpawner.showGoblin();
     }, 800);
   }
 
   stop() {
     this.isActive = false;
+    if (this.startTimeout) {
+      clearTimeout(this.startTimeout);
+      this.startTimeout = null;
+    }
     if (this.goblinSpawner) {
       this.goblinSpawner.reset();
     }
